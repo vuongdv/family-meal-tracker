@@ -108,21 +108,51 @@ form {
   gap: 10px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: var(--bg-input);
-  border: 2px solid var(--border);
+  background: rgba(20, 20, 35, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
+  opacity: 0.6;
+  filter: grayscale(0.8);
 }
 
 .participant-chip:hover {
-  border-color: var(--accent-light);
-  transform: translateY(-1px);
+  opacity: 0.8;
+  background: var(--bg-input);
 }
 
 .participant-chip.active {
+  opacity: 1;
+  filter: grayscale(0);
   border-color: var(--accent);
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.participant-chip.active .chip-avatar {
+  background: var(--gradient-accent);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  position: relative;
+}
+
+.participant-chip.active .chip-avatar::after {
+  content: '✓';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #10b981;
+  color: white;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  border: 2px solid var(--bg-card);
 }
 
 .participant-chip input[type="checkbox"] {
@@ -133,7 +163,7 @@ form {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--gradient-accent);
+  background: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,6 +171,7 @@ form {
   font-size: 0.85rem;
   color: white;
   flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .chip-name {
