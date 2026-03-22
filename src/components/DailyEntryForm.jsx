@@ -30,7 +30,7 @@ export default function DailyEntryForm() {
     e.preventDefault();
     
     if (!amount || parseFloat(amount) <= 0) {
-      alert('Vui lòng nhập số tiền hợp lệ!!!');
+      alert('Vui lòng nhập số tiền hợp lệ!');
       return;
     }
     if (participants.length === 0) {
