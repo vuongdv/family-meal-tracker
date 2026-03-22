@@ -14,6 +14,18 @@ export default function DailyEntryForm() {
   const [note, setNote] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const handleAmountChange = (e) => {
+    // Chỉ giữ lại các chữ số
+    const rawValue = e.target.value.replace(/\D/g, '');
+    if (!rawValue) {
+      setAmount('');
+      return;
+    }
+    // Format dạng 300.000
+    const formatted = new Intl.NumberFormat('vi-VN').format(parseInt(rawValue, 10));
+    setAmount(formatted);
+  };
+
   const toggleParticipant = (index) => {
     setParticipants((prev) =>
       prev.includes(index)
@@ -29,7 +41,10 @@ export default function DailyEntryForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!amount || parseFloat(amount) <= 0) {
+    // Xóa dấu chấm để chuyển về số tính toán
+    const numericAmount = parseFloat(amount.replace(/\./g, ''));
+    
+    if (!numericAmount || numericAmount <= 0) {
       alert('Vui lòng nhập số tiền hợp lệ!!');
       return;
     }
@@ -41,7 +56,7 @@ export default function DailyEntryForm() {
     addEntry({
       date,
       buyerIndex: parseInt(buyerIndex),
-      amount: parseFloat(amount),
+      amount: numericAmount,
       participants: [...participants],
       note: note.trim(),
     });
@@ -100,12 +115,11 @@ export default function DailyEntryForm() {
           <label htmlFor="entry-amount">💰 Số tiền (VND)</label>
           <input
             id="entry-amount"
-            type="number"
-            placeholder="Ví dụ: 300000"
+            type="text"
+            inputMode="numeric"
+            placeholder="Ví dụ: 300.000"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            min="0"
-            step="1000"
+            onChange={handleAmountChange}
             required
           />
         </div>
