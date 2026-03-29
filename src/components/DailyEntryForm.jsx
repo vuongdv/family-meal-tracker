@@ -6,7 +6,7 @@ import './DailyEntryForm.css';
 export default function DailyEntryForm() {
   const { members, addEntry } = useExpenses();
   const [date, setDate] = useState(getToday());
-  const [buyerIndex, setBuyerIndex] = useState(0);
+  const [buyerIndex, setBuyerIndex] = useState('');
   const [amount, setAmount] = useState('');
   const [participants, setParticipants] = useState(
     members.map((_, i) => i)
@@ -48,6 +48,10 @@ export default function DailyEntryForm() {
       alert('Vui lòng nhập số tiền hợp lệ!!');
       return;
     }
+    if (buyerIndex === '') {
+      alert('Vui lòng chọn người đi chợ!');
+      return;
+    }
     if (participants.length === 0) {
       alert('Vui lòng chọn ít nhất 1 người ăn!');
       return;
@@ -64,6 +68,7 @@ export default function DailyEntryForm() {
     // Reset form
     setAmount('');
     setNote('');
+    setBuyerIndex('');
     setParticipants(members.map((_, i) => i));
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
@@ -100,8 +105,9 @@ export default function DailyEntryForm() {
             <select
               id="entry-buyer"
               value={buyerIndex}
-              onChange={(e) => setBuyerIndex(parseInt(e.target.value))}
+              onChange={(e) => setBuyerIndex(e.target.value === '' ? '' : parseInt(e.target.value))}
             >
+              <option value="">-- Chọn người đi chợ --</option>
               {members.map((member, i) => (
                 <option key={i} value={i}>
                   {member}
